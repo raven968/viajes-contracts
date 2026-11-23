@@ -12,15 +12,35 @@ import { RideSummary } from './rides.js';
 
 // ---- Handshake ----
 
+/** `tenantId` (id o slug): lo mandan siempre las apps; la api solo lo usa para super_admin (tid null). */
+const HandshakeTenant = { tenantId: z.string().min(1).optional() };
+
+/** Handshake con el access token (apps móviles). */
+export const SocketHandshakeTokenAuth = z.object({ token: z.string().min(1), ...HandshakeTenant });
+export type SocketHandshakeTokenAuth = z.infer<typeof SocketHandshakeTokenAuth>;
+
 /**
- * `io(url, { auth })`. `tenantId` (id o slug) lo mandan siempre las apps;
- * la api solo lo usa para super_admin (tid null) — para el resto el tenant sale del token.
+ * Handshake con un ticket de un solo uso (`POST /realtime/ticket`, TTL corto). Lo usa el admin para no
+ * exponer el access token al socket. El ticket se consume al conectar: para reconectar pide otro.
  */
-export const SocketHandshakeAuth = z.object({
-  token: z.string().min(1),
-  tenantId: z.string().min(1).optional(),
-});
+export const SocketHandshakeTicketAuth = z.object({ ticket: z.string().min(1), ...HandshakeTenant });
+export type SocketHandshakeTicketAuth = z.infer<typeof SocketHandshakeTicketAuth>;
+
+/**
+ * `io(url, { auth })`: `{ token, tenantId? }` o `{ ticket, tenantId? }`.
+ * Si el handshake falla, `connect_error.message` es un `ApiErrorCode`
+ * (`unauthorized`, `ticket_invalid`, `tenant_required`, `tenant_not_found`, `tenant_suspended`).
+ */
+export const SocketHandshakeAuth = z.union([SocketHandshakeTokenAuth, SocketHandshakeTicketAuth]);
 export type SocketHandshakeAuth = z.infer<typeof SocketHandshakeAuth>;
+
+/** Respuesta de `POST /realtime/ticket`. */
+export const RealtimeTicket = z.object({
+  /** Opaco, de un solo uso. */
+  ticket: z.string().min(1),
+  expiresAt: IsoDateTime,
+});
+export type RealtimeTicket = z.infer<typeof RealtimeTicket>;
 
 /** Rooms a las que la api une los sockets. */
 export const SocketRooms = {

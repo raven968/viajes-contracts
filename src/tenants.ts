@@ -63,3 +63,18 @@ export const Tenant = z.object({
   updatedAt: IsoDateTime,
 });
 export type Tenant = z.infer<typeof Tenant>;
+
+/**
+ * `GET /tenants/current/settings` (staff del tenant: tenant_owner, dispatcher).
+ * Configuración operativa del tenant de la sesión (deuda máxima, comisión, tiempos de oferta...).
+ */
+export const TenantCurrentSettings = z.object({
+  id: z.uuid(),
+  slug: z.string(),
+  name: z.string(),
+  status: TenantStatusSchema,
+  timezone: z.string(),
+  currency: z.string(),
+  settings: TenantSettings,
+});
+export type TenantCurrentSettings = z.infer<typeof TenantCurrentSettings>;

@@ -16,7 +16,8 @@ export type CreateRideDto = z.infer<typeof CreateRideDto>;
 
 export const RideDriver = z.object({
   id: z.string(),
-  name: z.string(),
+  /** `null` si el chofer aún no captura su nombre (se crea solo con teléfono). */
+  name: z.string().nullable(),
   phone: z.string(),
   rating: z.number().nullable(),
   vehicle: VehicleSummary,

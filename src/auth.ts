@@ -75,10 +75,33 @@ export const StaffProfile = z.object({
 });
 export type StaffProfile = z.infer<typeof StaffProfile>;
 
-/** Respuesta de `GET /auth/me`: unión discriminada por `principal.typ`. */
-export const MeResponse = z.union([
-  z.object({ principal: Principal.extend({ typ: z.literal(SubjectType.passenger) }), profile: PassengerProfile }),
-  z.object({ principal: Principal.extend({ typ: z.literal(SubjectType.driver) }), profile: DriverProfile }),
-  z.object({ principal: Principal.extend({ typ: z.literal(SubjectType.staff) }), profile: StaffProfile }),
-]);
+/** `GET /auth/me` de un pasajero. */
+export const PassengerMeResponse = z.object({
+  typ: z.literal(SubjectType.passenger),
+  principal: Principal.extend({ typ: z.literal(SubjectType.passenger) }),
+  profile: PassengerProfile,
+});
+export type PassengerMeResponse = z.infer<typeof PassengerMeResponse>;
+
+/** `GET /auth/me` de un chofer. */
+export const DriverMeResponse = z.object({
+  typ: z.literal(SubjectType.driver),
+  principal: Principal.extend({ typ: z.literal(SubjectType.driver) }),
+  profile: DriverProfile,
+});
+export type DriverMeResponse = z.infer<typeof DriverMeResponse>;
+
+/** `GET /auth/me` de staff (super_admin, tenant_owner, dispatcher). */
+export const StaffMeResponse = z.object({
+  typ: z.literal(SubjectType.staff),
+  principal: Principal.extend({ typ: z.literal(SubjectType.staff) }),
+  profile: StaffProfile,
+});
+export type StaffMeResponse = z.infer<typeof StaffMeResponse>;
+
+/**
+ * Respuesta de `GET /auth/me`: unión discriminada por `typ` (= `principal.typ`).
+ * `if (me.typ === 'driver') me.profile.status` — TS estrecha `profile` por `typ`.
+ */
+export const MeResponse = z.discriminatedUnion('typ', [PassengerMeResponse, DriverMeResponse, StaffMeResponse]);
 export type MeResponse = z.infer<typeof MeResponse>;
