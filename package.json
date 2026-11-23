@@ -1,0 +1,32 @@
+{
+  "name": "@viajes/contracts",
+  "version": "0.1.0",
+  "description": "Tipos, enums, esquemas Zod y eventos de socket compartidos de la plataforma viajes",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format esm,cjs --dts --clean",
+    "dev": "tsup src/index.ts --format esm,cjs --dts --watch",
+    "typecheck": "tsc --noEmit",
+    "prepare": "pnpm build"
+  },
+  "peerDependencies": {
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "tsup": "^9.0.0",
+    "typescript": "^7.0.2",
+    "zod": "^4.6.7"
+  }
+}
