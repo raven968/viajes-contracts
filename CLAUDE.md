@@ -21,11 +21,15 @@ La api es la fuente de verdad del wire: si algo existe en la api, el contrato re
 - `app-config.ts` — `TenantAppConfig` (forma canónica de `tenants/<slug>.json` de app-pasajero/app-chofer),
   `TenantAppColors`, `TenantAppAssets`, `MapRegion`. El `app.config.ts` de Expo puede importarlo
   (el loader de Expo resuelve `@viajes/contracts` → `dist/index.cjs`; probado con `@expo/config` evalConfig).
-- `fares.ts` — cotización (`FareQuoteRequest`/`FareQuote`), `FareConfig`, `UpdateFareConfigDto`, `FareZone`.
+- `fares.ts` — cotización (`FareQuoteRequest`/`FareQuote` con `FareBreakdown`, `FareQuoteZone`), `FareConfig`
+  (incluye `roundingCents`), `UpdateFareConfigDto`, `FareZone`.
+- `maps.ts` — mapas vía api: `PlaceSessionToken` (UUID del cliente, compartido por autocompletado y detalles),
+  `PlaceAutocompleteQuery`/`PlaceSuggestion`/`PlaceAutocompleteResponse`, `PlaceDetailsQuery`/`PlaceDetails`,
+  `ReverseGeocodeQuery`/`ReverseGeocodeResponse`.
 - `rides.ts` — `CreateRideDto`, `RideSummary`, `RideDriver`, `VehicleSummary`, `RideListQuery`.
 - `drivers.ts` — `DriverListItem`, `DriverPosition`.
 - `ledger.ts` — `LedgerEntry`, `DriverDebt`.
-- `dispatch.ts` — `CreateDispatchRideDto`, `PlaceSuggestion`, `PlaceAutocompleteQuery`, KPIs (`TenantKpis`, `PlatformKpis`).
+- `dispatch.ts` — `CreateDispatchRideDto`, KPIs (`TenantKpis`, `PlatformKpis`).
 - `events.ts` — Socket.IO: esquemas Zod de cada payload, `SocketHandshakeAuth` (`{ token } | { ticket }`, + `tenantId?`),
   `RealtimeTicket` (`POST /realtime/ticket`), `SocketAck`, `SocketRooms`,
   mapas `ServerToClientSchemas`/`ClientToServerSchemas` y las interfaces `ServerToClientEvents`/`ClientToServerEvents`

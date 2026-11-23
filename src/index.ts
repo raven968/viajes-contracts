@@ -9,5 +9,6 @@ export * from './rides.js';
 export * from './drivers.js';
 export * from './ledger.js';
 export * from './dispatch.js';
+export * from './maps.js';
 export * from './events.js';
 export * from './routes.js';

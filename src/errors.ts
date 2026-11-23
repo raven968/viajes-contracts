@@ -32,6 +32,17 @@ export const ApiErrorCode = {
   accountBlocked: 'account_blocked',
   /** Reservado (Fase 1): chofer bloqueado por deuda con el tenant. */
   driverBlocked: 'driver_blocked',
+  // Mapas y cotización
+  /** 422: el origen está fuera del área de servicio del tenant. */
+  outsideServiceArea: 'outside_service_area',
+  /** 422: no hay ruta en auto entre origen y destino. */
+  noRoute: 'no_route',
+  /** 503: Google Maps no respondió (timeout, cuota, error); reintentar. */
+  mapsUnavailable: 'maps_unavailable',
+  /** 410: la cotización venció; volver a cotizar. */
+  quoteExpired: 'quote_expired',
+  /** 404: la cotización no existe (o no es de este pasajero / ya se usó). */
+  quoteNotFound: 'quote_not_found',
   // Tiempo real
   ticketInvalid: 'ticket_invalid',
 } as const;

@@ -71,14 +71,16 @@ export const ApiRoutes = {
   },
 
   maps: {
-    /** @planned `GET` `PlaceAutocompleteQuery` → `PlaceSuggestion[]`. */
+    /** `GET` `PlaceAutocompleteQuery` (`?input=&sessionToken=`) → `PlaceAutocompleteResponse` (`PlaceSuggestion[]`). Pasajero o staff. */
     autocomplete: '/maps/places/autocomplete',
-    /** @planned `GET` `?sessionToken=` → `Place`. */
+    /** `GET` `PlaceDetailsQuery` (`?sessionToken=`) → `PlaceDetails`. Pasajero o staff. */
     placeDetails: (placeId: string) => `/maps/places/${encodeURIComponent(placeId)}` as const,
+    /** `GET` `ReverseGeocodeQuery` (`?lat=&lng=`) → `ReverseGeocodeResponse` (`Place`). Pasajero o staff. */
+    reverseGeocode: '/maps/reverse-geocode',
   },
 
   fares: {
-    /** @planned `POST` `FareQuoteRequest` → `FareQuote`. */
+    /** `POST` `FareQuoteRequest` → 200 `FareQuote`. Pasajero o staff. */
     quote: '/fares/quote',
     /** @planned `GET` → `FareConfig`; `PATCH` `UpdateFareConfigDto` → `FareConfig`. */
     config: '/fares/config',
@@ -139,6 +141,7 @@ export const ApiRouteTemplates = {
   maps: {
     autocomplete: '/maps/places/autocomplete',
     placeDetails: '/maps/places/:placeId',
+    reverseGeocode: '/maps/reverse-geocode',
   },
   fares: {
     quote: '/fares/quote',

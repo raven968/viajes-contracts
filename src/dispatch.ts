@@ -14,20 +14,6 @@ export const CreateDispatchRideDto = z.object({
 });
 export type CreateDispatchRideDto = z.infer<typeof CreateDispatchRideDto>;
 
-/** Sugerencia de Places Autocomplete (siempre vía api) — `GET /maps/places/autocomplete`. */
-export const PlaceSuggestion = z.object({
-  placeId: z.string(),
-  description: z.string(),
-  secondary: z.string().optional(),
-});
-export type PlaceSuggestion = z.infer<typeof PlaceSuggestion>;
-
-export const PlaceAutocompleteQuery = z.object({
-  input: z.string().min(1),
-  sessionToken: z.string().min(1),
-});
-export type PlaceAutocompleteQuery = z.infer<typeof PlaceAutocompleteQuery>;
-
 // ---- Dashboard ----
 
 /** KPIs del tenant (`GET /dashboard/kpis`). */
